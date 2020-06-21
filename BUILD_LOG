@@ -1,0 +1,9 @@
+mkdir -p build/output/samples
+mkdir -p build/output/test
+cc -g -fPIC -Os -Wall -fvisibility=hidden -DLINUX_SO -o build/output/libpaho-embed-mqtt3c.so.1.0 MQTTPacket/src/*.c -shared -Wl,-soname,libpaho-embed-mqtt3c.so.1
+ln -s libpaho-embed-mqtt3c.so.1.0  build/output/libpaho-embed-mqtt3c.so.1
+ln -s libpaho-embed-mqtt3c.so.1 build/output/libpaho-embed-mqtt3c.so
+cc    -c -o MQTTPacket/src/../samples/transport.o MQTTPacket/src/../samples/transport.c
+cc -o build/output/samples/pub0sub1 MQTTPacket/src/../samples/pub0sub1.c MQTTPacket/src/../samples/transport.o -lpaho-embed-mqtt3c -I MQTTPacket/src  -L build/output
+cc -o build/output/samples/qos0pub MQTTPacket/src/../samples/qos0pub.c MQTTPacket/src/../samples/transport.o -lpaho-embed-mqtt3c -I MQTTPacket/src  -L build/output
+cc -g -o build/output/test/test1 MQTTPacket/src/../test/test1.c -lpaho-embed-mqtt3c -I MQTTPacket/src  -L build/output
